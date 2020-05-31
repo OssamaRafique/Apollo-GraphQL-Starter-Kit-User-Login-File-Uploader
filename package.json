@@ -1,0 +1,26 @@
+{
+  "name": "nglab-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OssamaRafique/ngLab-Backend.git"
+  },
+  "author": "Ossama Rafique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OssamaRafique/ngLab-Backend/issues"
+  },
+  "homepage": "https://github.com/OssamaRafique/ngLab-Backend#readme",
+  "dependencies": {
+    "apollo-server-express": "^2.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
