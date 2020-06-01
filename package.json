@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/OssamaRafique/ngLab-Backend#readme",
   "dependencies": {
+    "apollo-log": "^0.2.0",
     "apollo-server-express": "^2.14.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.16"
+    "mongoose": "^5.9.16",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "bcryptjs": "^2.4.3"

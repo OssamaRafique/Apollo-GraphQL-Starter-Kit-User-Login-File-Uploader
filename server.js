@@ -1,5 +1,6 @@
 const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
+const { ApolloLogExtension } = require('apollo-log');
 const cors = require('cors');
 const dotEnv = require('dotenv');
 
@@ -7,6 +8,7 @@ const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
 
 const { connection } = require('./database/util');
+
 
 // set env variables
 dotEnv.config();
@@ -26,7 +28,13 @@ app.use(cors());
 // body parser middleware
 app.use(express.json());
 
+//apollo server
+const extensions = [() => new ApolloLogExtension({
+  timestamp: true
+})];
+
 const apolloServer = new ApolloServer({
+  extensions,
   typeDefs,
   resolvers
 });
