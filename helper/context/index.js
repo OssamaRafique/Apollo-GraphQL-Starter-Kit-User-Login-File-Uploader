@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { AuthenticationError } = require('apollo-server-express');
 
 module.exports.verifyUser = async (req) => {
     try{
@@ -10,7 +11,6 @@ module.exports.verifyUser = async (req) => {
             req.email = payload.email;
         }
     } catch(error){
-        console.error(error);
-        throw error;
+        throw new AuthenticationError('Invalid Token');
     }
 }

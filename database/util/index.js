@@ -9,7 +9,6 @@ module.exports.connection = async ()=>{
         });
         console.info(`🗄️ Database Connected successfully \n Connection String: ${process.env.MongoDB_URL}`);
     } catch(error){
-        console.error(error);
         throw error;
     }
 }

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { combineResolvers } = require('graphql-resolvers');
+const { ApolloError, AuthenticationError } = require('apollo-server-express');
 
 const User = require('./../database/schema/user');
 const { isAuthenticated } = require('./middlewares')
@@ -13,7 +14,7 @@ module.exports = {
     user: combineResolvers(isAuthenticated, async (_, { email }) => {
       const user = await User.findOne({email});
       if(!user){
-        throw new Error('User not found');
+        throw new ApolloError('User not found','NOT_FOUND');
       }
       return user;
     })
@@ -23,7 +24,7 @@ module.exports = {
       try{
         const user = await User.findOne({ email : input.email });
         if(user){
-          throw new Error('Email Already In Use');
+          throw new ApolloError('Email Already In Use','DUPLICATE');
         }
         const hashedPassword = await bcrypt.hash(input.password, 12);
         const newUser = new User({ ...input, password: hashedPassword});
@@ -36,11 +37,11 @@ module.exports = {
       try{
         const user = await User.findOne({ email : input.email});
         if(!user){
-          throw new Error('User not found');
+          throw new ApolloError('User not found','NOT_FOUND');
         }
         const isPasswordValid = await bcrypt.compare(input.password,user.password);
         if(!isPasswordValid){
-          throw new Error('Incorrect Password');
+          throw new AuthenticationError('Incorrect Password');
         }
         const secretKey = process.env.JWT_SECRET_KEY || "uguazjlglm";
         const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: "15d" });
