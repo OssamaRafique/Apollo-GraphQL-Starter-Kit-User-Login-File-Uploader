@@ -7,9 +7,9 @@ module.exports.connection = async ()=>{
             useNewUrlParser: true,
             useFindAndModify:false
         });
-        console.log(`🗄️ Database Connected successfully \n Connection String: ${process.env.MongoDB_URL}`);
+        console.info(`🗄️ Database Connected successfully \n Connection String: ${process.env.MongoDB_URL}`);
     } catch(error){
-        console.log(error);
+        console.error(error);
         throw error;
     }
 }
