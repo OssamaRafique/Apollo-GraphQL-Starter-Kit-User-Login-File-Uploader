@@ -34,7 +34,7 @@ const extensions = [() => new ApolloLogExtension({
 })];
 
 const apolloServer = new ApolloServer({
-  extensions,
+  // extensions,
   typeDefs,
   resolvers
 });
