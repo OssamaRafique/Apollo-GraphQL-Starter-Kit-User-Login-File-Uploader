@@ -6,6 +6,16 @@ module.exports = gql`
     user(id: ID!): User
   }
 
+  extend type Mutation {
+    signup(input: SignupInput): User
+  }
+
+  input SignupInput{
+    name: String!,
+    email: String!,
+    password: String!
+  }
+
   type User {
     id: ID!
     name: String!
