@@ -1,20 +1,22 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { combineResolvers } = require('graphql-resolvers');
 
 const User = require('./../database/schema/user');
+const { isAuthenticated } = require('./middlewares')
 
 module.exports = {
   Query: {
-    users: async () => {
+    users: combineResolvers(isAuthenticated, async () => {
       return await User.find()
-    },
-    user: async (_, { email }) => {
+    }),
+    user: combineResolvers(isAuthenticated, async (_, { email }) => {
       const user = await User.findOne({email});
       if(!user){
         throw new Error('User not found');
       }
       return user;
-    }
+    })
   },
   Mutation: {
     signup: async (_,{ input }) => {

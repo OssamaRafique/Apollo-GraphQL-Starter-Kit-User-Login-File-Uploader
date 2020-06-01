@@ -6,6 +6,7 @@ const dotEnv = require('dotenv');
 
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
+const { verifyUser } = require('./helper/context')
 
 const { connection } = require('./database/util');
 
@@ -36,7 +37,11 @@ const extensions = [() => new ApolloLogExtension({
 const apolloServer = new ApolloServer({
   // extensions,
   typeDefs,
-  resolvers
+  resolvers,
+  context: async ({ req }) =>{
+    await verifyUser(req);
+    return { email : req.email }
+  }
 });
 
 apolloServer.applyMiddleware({ app, path: '/graphql' });
@@ -44,9 +49,9 @@ apolloServer.applyMiddleware({ app, path: '/graphql' });
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (_, res)=>{
-    res.send("ngLab 🚀GraphQL Server");
+  res.send("ngLab 🚀GraphQL Server");
 })
 
 app.listen(PORT, () => {
-    console.log(`🚀🚀🔥🔥Listening at PORT ${PORT} \n URL : http://localhost:${PORT} \n GraphQL Endpoint: http://localhost:${PORT}${apolloServer.graphqlPath}`);
+  console.info(`🚀🚀🔥🔥Listening at PORT ${PORT} \n URL : http://localhost:${PORT} \n GraphQL Endpoint: http://localhost:${PORT}${apolloServer.graphqlPath}`);
 })
