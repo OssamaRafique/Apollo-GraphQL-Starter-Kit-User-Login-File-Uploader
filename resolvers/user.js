@@ -1,12 +1,17 @@
-const { users } = require('../constants');
 const User = require('./../database/schema/user');
-
 const bcrypt = require('bcryptjs');
-
 module.exports = {
   Query: {
-    users: () => users,
-    user: (_, { id }) => users.find(user => user.id === id)
+    users: async () => {
+      return await User.find()
+    },
+    user: async (_, { email }) => {
+      const user = await User.findOne({email});
+      if(!user){
+        throw new Error('User not found');
+      }
+      return user;
+    }
   },
   Mutation: {
     signup: async (_,{ input }) => {
@@ -19,7 +24,6 @@ module.exports = {
         const newUser = new User({ ...input, password: hashedPassword});
         return await newUser.save();
       } catch(error){
-        console.log(error);
         throw error;
       }
     }
