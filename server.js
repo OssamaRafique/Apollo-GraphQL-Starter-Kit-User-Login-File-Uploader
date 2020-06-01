@@ -6,13 +6,22 @@ const dotEnv = require('dotenv');
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
 
+const { connection } = require('./database/util');
+
 // set env variables
 dotEnv.config();
 
 const app = express();
 
+//db connection
+
+connection();
+
 //cors
 app.use(cors());
+
+//run terminal commands
+//https://www.npmjs.com/package/node-cmd
 
 // body parser middleware
 app.use(express.json());
