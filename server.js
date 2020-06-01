@@ -1,17 +1,12 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { ApolloLogExtension } = require('apollo-log');
 const cors = require('cors');
 const dotEnv = require('dotenv');
-const winston = require('winston');
-
-// winston.add(winston.transports.File,{
-//   filename: "filename.log"
-// });
 
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
 const { verifyUser } = require('./helper/context')
+const { formatError } = require('./helper/formatError')
 
 const { connection } = require('./database/util');
 
@@ -34,17 +29,6 @@ app.use(cors());
 // body parser middleware
 app.use(express.json());
 
-// Add Logger
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  defaultMeta: { service: 'user-service' },
-  transports: [
-    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'logs/combined.log' }),
-  ],
-});
-
 //apollo server
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -53,11 +37,7 @@ const apolloServer = new ApolloServer({
     await verifyUser(req);
     return { email : req.email }
   },
-  formatError: (err) => {
-    logger.error(err);
-    console.error(err);
-    return err.message;
-  },
+  formatError
 });
 
 apolloServer.applyMiddleware({ app, path: '/graphql' });
