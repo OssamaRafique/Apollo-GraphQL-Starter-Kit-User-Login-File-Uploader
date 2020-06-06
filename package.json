@@ -19,7 +19,7 @@
   "homepage": "https://github.com/OssamaRafique/ngLab-Backend#readme",
   "dependencies": {
     "apollo-log": "^0.2.0",
-    "apollo-server-express": "^2.14.1",
+    "apollo-server-express": "^2.14.2",
     "aws-sdk": "^2.691.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
