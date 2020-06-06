@@ -6,6 +6,8 @@ const { ApolloError, AuthenticationError } = require('apollo-server-express');
 const User = require('./../database/schema/user');
 const { isAuthenticated } = require('./middlewares')
 
+const { uploadToS3, uploadToDisk } = require('../helper/uploader');
+
 module.exports = {
   Query: {
     users: combineResolvers(isAuthenticated, async () => {
@@ -22,12 +24,13 @@ module.exports = {
   Mutation: {
     signup: async (_,{ input }) => {
       try{
+        const picture = await uploadToS3(input.avatar);
         const user = await User.findOne({ email : input.email });
         if(user){
           throw new ApolloError('Email Already In Use','DUPLICATE');
         }
         const hashedPassword = await bcrypt.hash(input.password, 12);
-        const newUser = new User({ ...input, password: hashedPassword});
+        const newUser = new User({ ...input, password: hashedPassword, avatar: picture.url});
         return await newUser.save();
       } catch(error){
         throw error;

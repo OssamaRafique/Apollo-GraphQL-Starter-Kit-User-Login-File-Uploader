@@ -15,6 +15,7 @@ module.exports = gql`
     name: String!
     email: String!
     password: String!
+    avatar: Upload!
   }
 
   input LoginInput{
@@ -26,6 +27,7 @@ module.exports = gql`
     id: ID!
     name: String!
     email: String!
+    avatar: String!
     role: Int!
     createdAt: Date!
     updatedAt: Date!

@@ -4,7 +4,6 @@ const userTypeDefs = require('./user');
 const componentTypeDefs = require('./component');
 
 const typeDefs = gql`
-  scalar Date
 
   type Query {
     _: String
@@ -12,7 +11,14 @@ const typeDefs = gql`
   type Mutation {
     _: String
   }
-`;
+
+  scalar Date
+  
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }`;
 
 module.exports = [
   typeDefs,
