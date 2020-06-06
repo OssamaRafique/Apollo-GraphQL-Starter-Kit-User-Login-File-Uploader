@@ -1,4 +1,3 @@
-const multer = require('multer')
 const { S3 } = require('aws-sdk');
 const mime = require('mime');
 const crypto = require('crypto');
