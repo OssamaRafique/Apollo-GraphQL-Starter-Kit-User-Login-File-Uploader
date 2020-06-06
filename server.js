@@ -20,6 +20,10 @@ const app = express();
 
 connection();
 
+//serve media files
+
+app.use(express.static(__dirname + '/public'));
+
 //cors
 app.use(cors());
 
