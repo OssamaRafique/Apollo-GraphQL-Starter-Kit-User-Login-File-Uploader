@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const componentSchema = mongoose.Schema({
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ComponentCategory'
+    identifier: {
+        type: String,
+        required: true
     },
-    thumbnail: {
+    picture: {
         type: String,
         required: true
     },
