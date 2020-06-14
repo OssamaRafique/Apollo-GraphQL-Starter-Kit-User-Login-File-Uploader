@@ -6,7 +6,7 @@ const { ApolloError, AuthenticationError } = require('apollo-server-express');
 const User = require('./../database/schema/user');
 const { isAuthenticated } = require('./middlewares')
 
-const { uploadToS3, uploadToDisk } = require('../helper/uploader');
+const { uploadToS3 } = require('../helper/uploader');
 
 module.exports = {
   Query: {
@@ -47,7 +47,7 @@ module.exports = {
           throw new AuthenticationError('Incorrect Password');
         }
         const secretKey = process.env.JWT_SECRET_KEY || "uguazjlglm";
-        const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: "15d" });
+        const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, secretKey, { expiresIn: "15d" });
         return { token };
       } catch(error){
         throw error;

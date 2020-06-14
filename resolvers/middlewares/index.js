@@ -7,3 +7,10 @@ module.exports.isAuthenticated = async (_, __, { email })=>{
     }
     return skip;
 }
+
+module.exports.isAdmin = async (_, __, { role })=>{
+    if(role!=2){
+        throw new ForbiddenError('Access Denied, Only admins can request for this resource.');
+    }
+    return skip;
+}

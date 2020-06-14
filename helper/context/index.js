@@ -9,6 +9,7 @@ module.exports.verifyUser = async (req) => {
             const token = bearerToken.split(' ')[1];
             const payload = jwt.verify(token,process.env.JWT_SECRET_KEY || "uguazjlglm");
             req.email = payload.email;
+            req.role = payload.role;
         }
     } catch(error){
         throw new AuthenticationError('Invalid Token');

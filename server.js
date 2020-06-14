@@ -39,7 +39,7 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: async ({ req }) =>{
     await verifyUser(req);
-    return { email : req.email }
+    return { email : req.email, role: req.role }
   },
   formatError
 });
